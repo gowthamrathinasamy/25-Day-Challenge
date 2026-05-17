@@ -24,6 +24,9 @@ class LoginPage{
         if (await this.page.locator('a[href="/logout"]').isVisible()) {
         console.log('Login successful');
         }
+        else {
+        console.log('Login failed');
+        }
 }
 }
 module.exports = LoginPage;

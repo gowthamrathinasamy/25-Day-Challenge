@@ -44,7 +44,11 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-   /* {
+  /*
+   
+   { name: 'Chromium', use: { browserName: 'chromium' } },
+    
+    {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },

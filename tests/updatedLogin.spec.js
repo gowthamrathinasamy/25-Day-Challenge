@@ -1,5 +1,5 @@
 const { test } = require('@playwright/test');
-
+//require ('dotenv').config();
 const {
   clickElement,
   fillText,
@@ -13,6 +13,7 @@ test('Reusable Utility Function Example', async ({ page }) => {
   await fillText(
     page.locator('input[data-qa="login-email"]'),
     process.env.ADMIN_USERNAME
+    //No need to enter into "" because we are using environment variable and it will automatically take the value from .env file
   );
 
   await fillText(

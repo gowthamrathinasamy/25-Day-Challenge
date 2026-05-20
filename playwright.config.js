@@ -9,8 +9,11 @@ import path from 'path';
 import fs from 'fs';
 
 // Only load .env if it exists (for local development)
+//Here I find the path of the .env file
 const envPath = path.resolve(__dirname, '.env');
+//Use the condition to find ".env" file exists or not
 if (fs.existsSync(envPath)) {
+  //If the file exists, load the environment variables from the .env file
   dotenv.config({ path: envPath });
 }
 

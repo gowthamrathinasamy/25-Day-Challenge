@@ -8,3 +8,4 @@ node_modules/
 /playwright/.auth/
 /testData/loginData.js
 .env
+cookies.json

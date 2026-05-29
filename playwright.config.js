@@ -1,92 +1,55 @@
-import { defineConfig, devices } from '@playwright/test';
+const { defineConfig, devices } = require('@playwright/test');
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-import dotenv from 'dotenv';
-import path from 'path';
-import fs from 'fs';
+require('dotenv').config();
 
-// Only load .env if it exists (for local development)
-//Here I find the path of the .env file
-const envPath = path.resolve(__dirname, '.env');
-//Use the condition to find ".env" file exists or not
-if (fs.existsSync(envPath)) {
-  //If the file exists, load the environment variables from the .env file
-  dotenv.config({ path: envPath });
-}
-
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
-export default defineConfig({
+module.exports = defineConfig({
+  // Test Folder
   testDir: './tests',
-  /* Run tests in files in parallel */
+  // Parallel Execution
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  // Retry Failed Tests
+  retries: 2,
+  // Workers
+  workers: 4,
+  // Reporter
   reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  // Global Timeout
+  timeout: 60000,
+  // Expect Timeout
+  expect: {
+    timeout: 10000
+  },
+
   use: {
-  headless: false,
-  screenshot: 'only-on-failure',
-  video: 'retain-on-failure',
- 
-},
- timeout : 50000,
-  /* Configure projects for major browsers */
+    // Base URL
+    baseURL:
+      'https://automationexercise.com/',
+    // Browser UI Visible
+    headless: false,
+    // Screenshot on Failure
+    screenshot: 'only-on-failure',
+    // Video Recording
+    video: 'retain-on-failure',
+    // Trace for Debugging
+    trace: 'on-first-retry',
+    // Browser Size
+    viewport: {
+      width: 1400,
+      height: 800
+    },
+
+    // HTTPS Ignore
+    ignoreHTTPSErrors: true
+  },
+
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+
+      use: {
+        ...devices['Desktop Chrome']
+      }
     },
+  ]
 
-  /*
-   
-   { name: 'Chromium', use: { browserName: 'chromium' } },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-    */
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });
-
